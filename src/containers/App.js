@@ -6,6 +6,11 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor')
+  }
+
   state = {
     persons: [
       {id: '01', name: 'Max', age: 28},
@@ -17,7 +22,7 @@ class App extends Component {
     showPersons: false,
   };
 
-  changeTextHandler = (event, id) => {
+  changeNameHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => p.id === id);
     const person = {...this.state.persons[personIndex]};
 
@@ -49,7 +54,7 @@ class App extends Component {
           <Persons
             persons={this.state.persons}
             clicked={this.deletePersonHandler}
-            changed={this.changeTextHandler}
+            changed={this.changeNameHandler}
           />
       );
     }
@@ -57,6 +62,7 @@ class App extends Component {
     return (
         <div className={classes.App}>
           <Cockpit
+            title={this.props.appTitle}
             showPersons={this.state.showPersons}
             persons={this.state.persons}
             toggleBtn={this.togglePersonsHandler}
