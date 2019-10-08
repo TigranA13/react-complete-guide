@@ -52,7 +52,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "index.js",
   "devDependencies": {
-    "webpack-dev-server": "^3.0.0"
+    "webpack-dev-server": "^3.1.11"
   },
   "keywords": [
     "react",
