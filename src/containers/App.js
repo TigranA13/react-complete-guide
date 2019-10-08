@@ -4,6 +4,8 @@ import classes from './App.css';
 
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import Aux from '../hoc/Auxiliary';
+import withClass from '../hoc/withClass';
 
 class App extends Component {
   constructor(props) {
@@ -20,7 +22,30 @@ class App extends Component {
     text: 'Hello',
     username: 'superMax',
     showPersons: false,
+    showCockpit: true,
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStatesFromProps', props);
+    return state;
+  }
+
+  // componentWillMount() {
+  //   console.log('[App.js] component will mount')
+  // }
+
+  componentDidMount() {
+    console.log('[App.js] component did mount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log('[App.js] should component update');
+    return true;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('[App.js] component did update')
+  }
 
   changeNameHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => p.id === id);
@@ -46,7 +71,12 @@ class App extends Component {
     });
   };
 
+  removeCockpit = () => {
+    this.setState({showCockpit: !this.state.showCockpit})
+  };
+
   render() {
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
@@ -60,17 +90,20 @@ class App extends Component {
     }
 
     return (
-        <div className={classes.App}>
-          <Cockpit
-            title={this.props.appTitle}
-            showPersons={this.state.showPersons}
-            persons={this.state.persons}
-            toggleBtn={this.togglePersonsHandler}
-          />
+        <Aux >
+          <button onClick={this.removeCockpit}>Remove Cockpit</button>
+          {
+            this.state.showCockpit && <Cockpit
+              title={this.props.appTitle}
+              showPersons={this.state.showPersons}
+              personsLength={this.state.persons.length}
+              toggleBtn={this.togglePersonsHandler}
+            />
+          }
           {persons}
-        </div>
+        </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
